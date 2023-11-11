@@ -1,0 +1,31 @@
+---
+import { fade } from "astro:transitions";
+import BaseLayout from "./BaseLayout.astro";
+const { frontmatter } = Astro.props;
+
+---
+<BaseLayout pageTitle = {frontmatter.title}>
+    <h1 transition:animate={fade({duration: '2s'})}>{frontmatter.chapter} : {frontmatter.title}</h1>
+    <p>Publish date: {frontmatter.pubDate.toString().slice(0, 10)}</p>
+    <p><em>{frontmatter.description}</em></p>
+    <p>Written by: {frontmatter.author}</p>
+
+    <div class="tags"> {/** Adding tags for routing to similar posts*/}
+        {frontmatter.tags.map((tag:any) => (
+          <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
+        ))}
+      </div>
+
+    <slot />
+</BaseLayout>
+<style>
+  
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .tag {
+      margin-right: 0.5rem;
+    }
+
+</style>
